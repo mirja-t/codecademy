@@ -6,7 +6,7 @@ const returnRandBase = () => {
 
 // Returns a random single stand of DNA containing 15 bases
 const mockUpStrand = () => {
-  const newStrand = []
+  const newStrand = [];
   for (let i = 0; i < 15; i++) {
     newStrand.push(returnRandBase())
   }
@@ -39,15 +39,22 @@ const pAequorFactory = (num, arr) =>{
     willLikelySurvive(){
       const CGs = this.dna.filter(base => base === 'C' || base === 'G');
       return CGs.length / this.dna.length > 0.6;
+    },
+    complementStrand(){
+      const strands = ['A', 'C', 'T', 'G'];
+      const complement = [];
+      for(let i = 0; i < this.dna.length; i++) {
+          const index = strands.indexOf(this.dna[i]);
+          const complementIndex = (index + 2) % 4;
+          complement.push(strands[complementIndex])
+      }
+      return complement;
     }
   }
 }
 const pAequor = pAequorFactory(1, mockUpStrand());
-console.log(pAequor.dna);
-console.log(pAequor.mutate());
 const newpAequor = pAequorFactory(1, mockUpStrand());
 pAequor.compareDNA(newpAequor);
-console.log(pAequor.willLikelySurvive());
 
 const pAequorWhoCanSurvive = [];
 while(pAequorWhoCanSurvive.length < 30){
@@ -56,4 +63,5 @@ while(pAequorWhoCanSurvive.length < 30){
     pAequorWhoCanSurvive.push(newpAequor);
   }  
 }
-console.log(pAequorWhoCanSurvive.length);
+
+console.log(pAequor.dna, pAequor.complementStrand());
